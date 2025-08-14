@@ -1,0 +1,28 @@
+{
+  "name": "authenticationsystem",
+  "version": "1.0.0",
+  "description": "building an authentication system",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rounitisking/Authentication_System.git"
+  },
+  "author": "rounit singh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rounitisking/Authentication_System/issues"
+  },
+  "homepage": "https://github.com/rounitisking/Authentication_System#readme",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.1",
+    "express": "^5.1.0",
+    "mongoose": "^8.17.1",
+    "nodemon": "^3.1.10"
+  }
+}
