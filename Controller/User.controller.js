@@ -240,16 +240,21 @@ const loginUser = async (req,res)=>{
             if(pwdCheck){
                 if(user.isVerified == true){
 
-                    const token = jwt.sign({id : user._id}, "shhhhh",{
+                    const token = jwt.sign({id : user._id}, "shhhhh",{ // here shhhhh is a key 
                         expiresIn : "24h"
                     })
                     
                     //storing the session token in the cookies
-                    
+                    const cookieOption = {
+                        httpOnly : true,
+                        secure : true,
+                        maxAge : 20*60*600*1000
+                    }
+                    res.cookie("token" , token , ) // the third parameter in this is cookie options 
 
 
                     successResponse("login successfull")
-                    await user.save()
+                    
                 }else{
                    return errorResponse("login failed as you are not verified")
                 }

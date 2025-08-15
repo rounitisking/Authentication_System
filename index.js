@@ -7,6 +7,8 @@ import express from "express"
 import dotenv from "dotenv"
 import  cors from "cors"
 import ConnectDB from "./utils/db.js"
+import cookieParser from "cookie-parser"
+app.use(cookieParser())
 
 //import all routes
 import router from "./routes/User.routes.js"
