@@ -1,0 +1,4 @@
+difference between a api and a url
+ans - a url is a uniform resource locator which means that it tells the address of the resource present on the internet
+      a api is a set of rules how a software communicatd with another software whic includes which req qill it accepts,what res will it send these system as a whole is a api and the endpoint is a url 
+
