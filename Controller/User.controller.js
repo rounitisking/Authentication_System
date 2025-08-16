@@ -240,7 +240,7 @@ const loginUser = async (req,res)=>{
             if(pwdCheck){
                 if(user.isVerified == true){
 
-                    const token = jwt.sign({id : user._id}, "shhhhh",{ // here shhhhh is a key 
+                    const token = jwt.sign({id : user._id , role : user.role}, process.env.JWT_SECRET,{ // here shhhhh is a key 
                         expiresIn : "24h"
                     })
                     
@@ -250,10 +250,10 @@ const loginUser = async (req,res)=>{
                         secure : true,
                         maxAge : 20*60*600*1000
                     }
-                    res.cookie("token" , token , ) // the third parameter in this is cookie options 
+                    res.cookie("token" , token ,cookieOption) // the third parameter in this is cookie options 
 
 
-                    successResponse("login successfull")
+                    successResponse("login successfull and the cookies are set")
                     
                 }else{
                    return errorResponse("login failed as you are not verified")
@@ -271,4 +271,159 @@ const loginUser = async (req,res)=>{
         }
 }
 
-export {registerUser , verifyUser , loginUser}
+
+
+const profileUser = async (req,res)=>{
+   try {
+
+    
+      //res and req fucntions 
+    function errorResponse(err){
+    return res.status(400).json({
+        message : err
+    })
+    }
+
+    function successResponse(success){
+    return res.status(200).json({
+        message : success
+    })  
+    }
+
+    if(!req.user){
+        return errorResponse("error while accessing the profile")
+        
+    }
+    else{
+        const user = await User.findById(req.user.id ).select('-password')  //takes string or object  - User.findById(userId).select({ name: 1, email: 1, role: 0 });   const user = await User.findById(req.user.id).select("name email role"); 
+
+console.log(user);
+// { _id: 66b3acb59f98d02a4321e4c9, name: "Rounit", email: "rounit@example.com", role: "admin" }
+
+        successResponse({
+            user
+            
+        })
+    }
+
+   } catch (error) {
+    console.log("error occured while viewing the profile")
+   }
+
+
+
+
+}
+
+
+
+const LogoutUser = async (req,res)=>{
+   try {
+
+
+      //res and req fucntions 
+    function errorResponse(err){
+    return res.status(400).json({
+        message : err
+    })
+    }
+
+    function successResponse(success){
+    return res.status(200).json({
+        message : success
+    })  
+    }
+
+
+    // logout ke liye bas clear the cookies
+    res.cookie("token" , "" , {
+
+        expires : new Date(0), // ye JavaScript ka epoch time hota hai → Thu, 01 Jan 1970 00:00:00 GMT  iska matlab hota hai cookie is already expired
+        httpOnly : true
+    })
+
+    successResponse("user has logout successfully")
+
+   } catch (error) {
+    console.log("error occured in logout te user")
+   }
+
+
+
+
+}
+
+
+
+const ResetPasswordUser = async (req,res)=>{
+
+    //collect from param
+    //collect passwor from bod - the old password
+    // ham user ko do basis pe find kareng   1. token   2. ki valid time hai ya nhi 
+    //empty the rest token field and expry tim field and save the password
+   try {
+
+
+      //res and req fucntions 
+    function errorResponse(err){
+    return res.status(400).json({
+        message : err
+    })
+    }
+
+    function successResponse(success){
+    return res.status(200).json({
+        message : success
+    })  
+    }
+
+
+
+   } catch (error) {
+    
+   }
+
+
+
+
+}
+const ForgotPasswordUser = async (req,res)=>{
+    //get email
+    // verify email by sending a token and a reset password expiry
+    //then take password 
+    //save the password
+
+
+
+
+   try {
+
+
+      //res and req fucntions 
+    function errorResponse(err){
+    return res.status(400).json({
+        message : err
+    })
+    }
+
+    function successResponse(success){
+    return res.status(200).json({
+        message : success
+    })  
+    }
+
+
+
+   } catch (error) {
+    
+   }
+
+
+
+
+}
+
+
+
+
+export {registerUser , verifyUser , loginUser , ResetPasswordUser , ForgotPasswordUser , LogoutUser , profileUser}

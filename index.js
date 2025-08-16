@@ -1,14 +1,13 @@
 //callback functions are also called as controlers
 // req is compried of three things model + controller + routes
 // cors mai origin mai maine "http://localhost:4000" ye likha tha ye tab valid hoga jab mere paas koi or service bhi hoga jo 4000 port pe req kr raha hai 
-
+// in mongo db when we set undefined the field is erased and when we set null teh value is store so b using undefined we use less space -- important to remember
 
 import express from "express"
 import dotenv from "dotenv"
 import  cors from "cors"
 import ConnectDB from "./utils/db.js"
 import cookieParser from "cookie-parser"
-app.use(cookieParser())
 
 //import all routes
 import router from "./routes/User.routes.js"
@@ -19,6 +18,7 @@ const port = process.env.PORT || 4000
 const app = express()
 app.use(express.urlencoded())
 app.use(express.json())
+app.use(cookieParser())
 app.use(cors({
     origin : "http://127.0.0.1:3000",
     methods : ["GET", "PUT" ,"POST" , "DELETE"],
